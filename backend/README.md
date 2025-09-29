@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
@@ -89,10 +89,33 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- Author - [Kamil MyÅ›liwiec](https://twitter.com/kammysliwiec)
 - Website - [https://nestjs.com](https://nestjs.com/)
 - Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Supabase integration
+
+1. Create a `.env` file in the backend root (`backend/.env`) with:
+   - `SUPABASE_URL=your-project-url`
+   - `SUPABASE_SERVICE_ROLE_KEY=your-service-role-key` (or `SUPABASE_ANON_KEY` for read-only access).
+2. Start the backend with `npm run start:dev`. The `ConfigModule` loads `.env` automatically, so the service picks up the Supabase credentials on bootstrap (you can still export vars manually in other environments).
+3. Inject `SupabaseService` wherever you need to talk to Supabase:
+
+```ts
+import { SupabaseService } from '../database/supabase.service';
+
+@Injectable()
+export class ExampleService {
+  constructor(private readonly supabase: SupabaseService) {}
+
+  async listUsers() {
+    const client = this.supabase.getClient();
+    return client.from('users').select('*');
+  }
+}
+```
+
+The service wraps the official `@supabase/supabase-js` client so you can access any endpoint available in the SDK.
