@@ -1,0 +1,17 @@
+export enum FutChampionsEnum {
+  CONTENDIENTE_V = 'contendiente_v',
+  CONTENDIENTE_IV = 'contendiente_iv',
+  CONTENDIENTE_III = 'contendiente_iii',
+  CONTENDIENTE_II = 'contendiente_ii',
+  CONTENDIENTE_I = 'contendiente_i',
+  CAMPEON_V = 'campeon_v',
+  CAMPEON_IV = 'campeon_iv',
+  CAMPEON_III = 'campeon_iii',
+  CAMPEON_II = 'campeon_ii',
+  CAMPEON_I = 'campeon_i',
+  ELITE_V = 'elite_v',
+  ELITE_IV = 'elite_iv',
+  ELITE_III = 'elite_iii',
+  ELITE_II = 'elite_ii',
+  ELITE_I = 'elite_i',
+}

@@ -1,8 +1,8 @@
 import { Controller, Post, Get, Body, UseGuards, Request, HttpCode, HttpStatus } from '@nestjs/common';
 import { SupabaseUserGuard } from './supabase-user.guard';
-import { SignupDto } from 'src/common/dto/SignUpDto';
-import { LoginDto } from 'src/common/dto/LoginDto';
-import { RefreshTokenDto } from 'src/common/dto/RefreshTokenDto';
+import { SignupDto } from 'src/common/dto/sign-up.dto';
+import { LoginDto } from 'src/common/dto/login.dto';
+import { RefreshTokenDto } from 'src/common/dto/refresh-token.dto';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
