@@ -1,17 +1,17 @@
 import { Injectable, BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { AvailabilityStatus } from 'src/common/enum/availability-status.enum';
 import { SupabaseService } from 'src/database/supabase.service';
+import { ListAvailabilitiesQueryDto } from './dtos/list-availability.dto';
+import { AvailabilityResponseDto } from './dtos/availability-response.dto';
+import { CreateAvailabilityDto } from './dtos/create-availability.dto';
+import { UpdateAvailabilityStatusDto } from './dtos/update-availability.dto';
 
 @Injectable()
 export class AvailabilityService {
   constructor(private readonly db: SupabaseService) {}
 
-  async list({ playerId, from, to, status }: { 
-    playerId?: string; 
-    from?: string; 
-    to?: string;
-    status?: string;
-  }) {
+  async list(query: ListAvailabilitiesQueryDto): Promise<AvailabilityResponseDto[]> {
+  const { playerId, from, to, status } = query;
     let q = this.db.getClient()
       .from('availabilities')
       .select('*, player:profiles!availabilities_player_id_fkey(id, username, email, phone)')
@@ -27,11 +27,8 @@ export class AvailabilityService {
     return data;
   }
 
-  async create({ playerId, start, end }: { 
-    playerId: string; 
-    start: string; 
-    end: string;
-  }) {
+  async create(playerId: string, dto: CreateAvailabilityDto) {
+  const { start, end } = dto;
     const { data: profile, error: profileError } = await this.db.getClient()
       .from('profiles')
       .select('role')
@@ -89,11 +86,8 @@ export class AvailabilityService {
     return data;
   }
 
-  async setStatus({ id, status, requesterId }: { 
-    id: string; 
-    status: AvailabilityStatus.DISPONIBLE | AvailabilityStatus.EN_REVISION | AvailabilityStatus.CANCELADO | AvailabilityStatus.RESERVADO; 
-    requesterId: string;
-  }) {
+  async setStatus(requesterId: string, dto: UpdateAvailabilityStatusDto) {
+  const { id, status } = dto;
     // Obtener la disponibilidad
     const { data: slot, error: e1 } = await this.db.getClient()
       .from('availabilities')
@@ -139,7 +133,7 @@ export class AvailabilityService {
   /**
    * Obtiene una disponibilidad por ID
    */
-  async getById(id: string) {
+  async getById(id: string): Promise<AvailabilityResponseDto> {
     const { data, error } = await this.db.getClient()
       .from('availabilities')
       .select('*, player:profiles!availabilities_player_id_fkey(id, username, email, phone)')

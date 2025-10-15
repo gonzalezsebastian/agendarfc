@@ -5,6 +5,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { SupabaseModule } from './database/supabase.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AvailabilityModule } from './app/availabilities/availability.module';
+import { AvailabilityController } from './app/availabilities/availability.controller';
+import { AvailabilityService } from './app/availabilities/availability.service';
+import { SupabaseService } from './database/supabase.service';
 
 @Module({
   imports: [
@@ -15,7 +19,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',
-        url: process.env.SUPABASE_URL,
+        url: process.env.DATABASE_URL,
         ssl: { rejectUnauthorized: false },
         entities: ['dist/app_modules/**/*.entity{.ts,.js}'],
         migrations: ['dist/migrations/*{.ts,.js}'],
@@ -24,9 +28,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       })
     }),
     SupabaseModule,
+    AvailabilityModule,
     AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AvailabilityController],
+  providers: [AppService, SupabaseService, AvailabilityService],
 })
 export class AppModule {}

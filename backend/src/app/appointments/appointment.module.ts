@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AvailabilityController } from './availability.controller';
-import { AvailabilityService } from './availability.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { SupabaseModule } from 'src/database/supabase.module';
+import { AppointmentsController } from './appointment.controller';
+import { AppointmentsService } from './appointment.service';
 
 @Module({
   imports: [
     SupabaseModule,
     AuthModule
   ],
-  controllers: [AvailabilityController],
-  providers: [AvailabilityService],
-  exports: [AvailabilityService]
+  controllers: [AppointmentsController],
+  providers: [AppointmentsService],
+  exports: [AppointmentsService]
 })
 export class AvailabilityModule {}
