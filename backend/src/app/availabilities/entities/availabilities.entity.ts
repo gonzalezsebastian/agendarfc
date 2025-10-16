@@ -1,4 +1,3 @@
-// src/modules/availabilities/entities/availability.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,

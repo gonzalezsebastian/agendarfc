@@ -13,4 +13,4 @@ import { AppointmentsService } from './appointment.service';
   providers: [AppointmentsService],
   exports: [AppointmentsService]
 })
-export class AvailabilityModule {}
+export class AppointmentsModule {}
